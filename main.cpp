@@ -1,7 +1,10 @@
 #include <iostream>
+#include <unistd.h>
+#include "hardware/Frequency.h";
 #include "SDL2/SDL.h"
 
 using namespace std;
+
 
 int main() {
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -11,3 +14,4 @@ int main() {
 
     return 0;
 }
+

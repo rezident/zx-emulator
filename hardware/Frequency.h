@@ -13,6 +13,13 @@
  * Частота
  */
 class Frequency {
+public:
+    Frequency();
+
+    /**
+     * Ждет заданное количество тактов процессора Z80
+     */
+    void wait(int z80Tacts);
 
 private:
     /**
@@ -29,6 +36,11 @@ private:
      * Пересчитывает отношение частот процессоров
      */
     static int updateRatioThread(void *);
+
+    /**
+     * Последнее значение счетчика тактов процессора
+     */
+    uint64_t lastTact;
 
 };
 

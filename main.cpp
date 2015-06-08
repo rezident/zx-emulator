@@ -1,7 +1,5 @@
 #include <iostream>
-#include <unistd.h>
 #include "hardware/Frequency.h";
-#include "SDL2/SDL.h"
 
 using namespace std;
 

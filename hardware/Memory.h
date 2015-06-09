@@ -31,6 +31,11 @@ public:
      * Записывает два байта по указанному адресу
      */
     void writeNN(doubleByte addr, doubleByte data);
+
+    /**
+     * Возвращает указатель на заданный адрес памяти ZX
+     */
+    void * getPointer(doubleByte addr);
 private:
     /**
      * Хранит образ памяти

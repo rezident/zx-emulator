@@ -23,6 +23,10 @@ Memory::Memory() {
     }
 
     fclose(rom);
+
+    FILE *screen = fopen("software/screens/dizzy5.scr", "rb");
+    fread(this->getPointer(16384), 1, 6912, screen);
+    fclose(screen);
 }
 
 byte Memory::readN(doubleByte addr) {
@@ -43,4 +47,8 @@ void Memory::writeN(doubleByte addr, byte data) {
 void Memory::writeNN(doubleByte addr, doubleByte data) {
     this->writeN(addr, (byte) (data & 0x00FF));
     this->writeN((doubleByte) (addr+1), (byte) ((data & 0xFF00) >> 8));
+}
+
+void * Memory::getPointer(doubleByte addr) {
+    return this->memory + addr;
 }

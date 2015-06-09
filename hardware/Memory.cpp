@@ -24,3 +24,23 @@ Memory::Memory() {
 
     fclose(rom);
 }
+
+byte Memory::readN(doubleByte addr) {
+    return this->memory[addr];
+}
+
+doubleByte Memory::readNN(doubleByte addr) {
+    return (doubleByte) (this->memory[addr] + this->memory[addr+1] * 256);
+}
+
+void Memory::writeN(doubleByte addr, byte data) {
+    if(addr > 16383) {
+        this->memory[addr] = data;
+    }
+
+}
+
+void Memory::writeNN(doubleByte addr, doubleByte data) {
+    this->writeN(addr, (byte) (data & 0x00FF));
+    this->writeN((doubleByte) (addr+1), (byte) ((data & 0xFF00) >> 8));
+}

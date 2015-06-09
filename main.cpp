@@ -19,8 +19,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    Memory *mem = new Memory();
-
     return 0;
 }
 

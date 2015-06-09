@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "hardware/Frequency.h";
 #include "hardware/Memory.h"
+#include "hardware/Screen.h"
 
 using namespace std;
 
@@ -19,6 +20,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    Memory *memory = new Memory();
+    Screen *screen = new Screen(memory);
+    getchar();
     return 0;
 }
 

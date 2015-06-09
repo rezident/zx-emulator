@@ -2,10 +2,10 @@
 #include <stdexcept>
 #include "INT.h"
 
-SDL_Thread *INT::thread = SDL_CreateThread(INT::INTThread, NULL, NULL);
-int INT::count = 0;
 Frequency *INT::frequency = new Frequency();
+int INT::count = 0;
 UsesINT *INT::observers[MAX_INT_OBSERVERS];
+SDL_Thread *INT::thread = SDL_CreateThread(INT::INTThread, NULL, NULL);
 
 void INT::addObserver(UsesINT *observer) {
     if(INT::count == MAX_INT_OBSERVERS) {

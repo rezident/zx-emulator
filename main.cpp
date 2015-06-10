@@ -3,7 +3,7 @@
 #include <iostream>
 #include <libgen.h>
 #include <unistd.h>
-#include "hardware/Frequency.h";
+#include "hardware/Frequency.h"
 #include "hardware/Memory.h"
 #include "hardware/Screen.h"
 

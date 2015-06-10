@@ -23,6 +23,11 @@ class Screen: public UsesINT {
 public:
     Screen(Memory *memory);
 
+    /**
+     * Устанавливает цвет бордера
+     */
+    void setBorder(byte border);
+
 private:
 
     /**
@@ -60,11 +65,9 @@ private:
      */
     static int updateScreenThread(void *screen);
 
-    /**
-     * Устанавливает цвет бордера
-     */
-    void setBorder(byte border);
+    Uint32 palette[16];
 
+    void initPalette();
 };
 
 

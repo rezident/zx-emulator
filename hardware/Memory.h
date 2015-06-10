@@ -5,6 +5,9 @@ typedef unsigned short doubleByte;
 #define ZX_EMULATOR_MEMORY_H
 
 
+/**
+ * Память компьютера
+ */
 class Memory {
 public:
     /**

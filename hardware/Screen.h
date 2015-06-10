@@ -17,15 +17,54 @@
 #include <SDL_video.h>
 #include "signals/int/UsesINT.h"
 #include "Memory.h"
+#include "Frequency.h"
 
 class Screen: public UsesINT {
 public:
     Screen(Memory *memory);
 
 private:
+
+    /**
+     * Память компьютера ZX
+     */
     Memory *memory;
+
+    /**
+     * Окно, в котором размещается экран
+     */
     SDL_Window *window;
+
+    /**
+     * Пиксельная карта экрана
+     */
     SDL_Surface *surface;
+
+    /**
+     * Частотный генератор
+     */
+    Frequency *frequency;
+
+    /**
+     * Поток, в котором идет обновление экрана
+     */
+    SDL_Thread *thread;
+
+    /**
+     * Цвет Border
+     */
+    byte border;
+
+    /**
+     * Поток, обновляющий экран
+     */
+    static int updateScreenThread(void *screen);
+
+    /**
+     * Устанавливает цвет бордера
+     */
+    void setBorder(byte border);
+
 };
 
 

@@ -3,7 +3,10 @@
 //
 
 #include <SDL_timer.h>
+#include <SDL_hints.h>
+#include <iostream>
 #include "Screen.h"
+#include "signals/int/INT.h"
 
 Screen::Screen(Memory *memory) {
     this->memory = memory;
@@ -14,11 +17,24 @@ Screen::Screen(Memory *memory) {
             (BORDER_TOP_LINES+SCREEN_Y_LINES+BORDER_BOTTOM_LINES)*SCREEN_SCALE, 0
     );
     this->surface = SDL_GetWindowSurface(this->window);
-    Uint32 *ppp;
-    ppp = (Uint32 *) this->surface->pixels + 50000;
-    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 0, 0); ppp++;
-    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 0, 0); ppp++;
-    *ppp = (Uint32) SDL_MapRGB(surface->format, 0, 255, 0); ppp++;
-    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 255, 0); ppp++;
+    this->frequency = new Frequency();
+    this->thread = SDL_CreateThread(Screen::updateScreenThread, NULL, this);
+    INT::addObserver(this);
+
+//    Uint32 *ppp;
+//    ppp = (Uint32 *) this->surface->pixels + 50000;
+//    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 0, 0); ppp++;
+//    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 0, 0); ppp++;
+//    *ppp = (Uint32) SDL_MapRGB(surface->format, 0, 255, 0); ppp++;
+//    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 255, 0); ppp++;
 //    SDL_UpdateWindowSurface(this->window);
+}
+
+int Screen::updateScreenThread(void *screen) {
+    Screen *scr = (Screen *) screen;
+    return 0;
+}
+
+void Screen::setBorder(byte border) {
+    this->border = border;
 }

@@ -3,6 +3,7 @@
 //
 
 #include <SDL_timer.h>
+#include <iostream>
 #include "Screen.h"
 #include "signals/int/INT.h"
 
@@ -11,11 +12,9 @@ Screen::Screen(Memory *memory) {
     this->window = SDL_CreateWindow(
             "ZX-Emulator",
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            (BORDER_LEFT_PIXELS+SCREEN_X_PIXELS+BORDER_RIGHT_PIXELS)*SCREEN_SCALE,
-            (BORDER_TOP_LINES+SCREEN_Y_LINES+BORDER_BOTTOM_LINES)*SCREEN_SCALE, 0
+            WINDOW_WIDTH, WINDOW_HEIGHT, 0
     );
     this->surface = SDL_GetWindowSurface(this->window);
-    this->frequency = new Frequency();
     this->initPalette();
     this->thread = SDL_CreateThread(Screen::updateScreenThread, NULL, this);
     INT::addObserver(this);
@@ -31,6 +30,15 @@ Screen::Screen(Memory *memory) {
 
 int Screen::updateScreenThread(void *screen) {
     Screen *scr = (Screen *) screen;
+    while(true) {
+        while(!scr->isComeINT()) {}
+        scr->resetINT();
+        scr->flashCounter++;
+        if(scr->flashCounter > FLASH_CHANGE_EVERY_INT) {
+            scr->flashCounter = 0;
+            scr->flashInverted = !scr->flashInverted;
+        }
+    }
     return 0;
 }
 

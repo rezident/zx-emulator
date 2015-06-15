@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 
     Memory *memory = new Memory();
     Screen *screen = new Screen(memory);
+    cout << WINDOW_WIDTH << "x" << WINDOW_HEIGHT << endl << FLASH_CHANGE_EVERY_INT;
     getchar();
     return 0;
 }

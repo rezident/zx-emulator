@@ -19,6 +19,7 @@ Screen::Screen(Memory *memory) {
     this->thread = SDL_CreateThread(Screen::updateScreenThread, NULL, this);
     INT::addObserver(this);
     this->setBorder(1);
+    this->buildScreenMap();
 
 //    Uint32 *ppp;
 //    ppp = (Uint32 *) this->surface->pixels + 50000;
@@ -72,4 +73,12 @@ void Screen::flashHandler() {
         this->flashInverted = !this->flashInverted;
     }
 
+}
+
+void Screen::buildScreenMap() {
+    ScreenMapElement *map = this->screenMap;
+    map->pointerWin = NULL;
+    map->tactsWait = SYNCHRO_TOP_LINES * 4 *
+            (BORDER_LEFT_PIXELS / 8 + SCREEN_X_PIXELS / 8 + BORDER_RIGHT_PIXELS / 8)
+            + (SYNCHRO_TOP_LINES * SYNCHRO_LEFT_TICKS);
 }

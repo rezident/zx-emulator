@@ -110,7 +110,9 @@ private:
     /**
      * Карта окна для вывода изображения
      */
-    ScreenMapElement screenMap[WINDOW_WIDTH*WINDOW_HEIGHT];
+    ScreenMapElement screenMap[WINDOW_WIDTH*WINDOW_HEIGHT+1];
+
+    void buildScreenMap();
 };
 
 #endif //ZX_EMULATOR_SCREEN_H

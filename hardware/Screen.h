@@ -88,6 +88,11 @@ private:
     Uint32 palette[16];
 
     /**
+     * Обработчик счетчика мерцания
+     */
+    void flashHandler();
+
+    /**
      * Инициализирует палитру цветов ZX
      */
     void initPalette();

@@ -33,11 +33,7 @@ int Screen::updateScreenThread(void *screen) {
     while(true) {
         while(!scr->isComeINT()) {}
         scr->resetINT();
-        scr->flashCounter++;
-        if(scr->flashCounter > FLASH_CHANGE_EVERY_INT) {
-            scr->flashCounter = 0;
-            scr->flashInverted = !scr->flashInverted;
-        }
+        scr->flashHandler();
     }
     return 0;
 }
@@ -64,4 +60,13 @@ void Screen::initPalette() {
     this->palette[13] = SDL_MapRGB(this->surface->format, 0x00, 0xFF, 0xFF); // CYAN
     this->palette[14] = SDL_MapRGB(this->surface->format, 0xFF, 0xFF, 0x00); // YELLOW
     this->palette[15] = SDL_MapRGB(this->surface->format, 0xFF, 0xFF, 0xFF); // WHITE
+}
+
+void Screen::flashHandler() {
+    this->flashCounter++;
+    if(this->flashCounter > FLASH_CHANGE_EVERY_INT) {
+        this->flashCounter = 0;
+        this->flashInverted = !this->flashInverted;
+    }
+
 }

@@ -19,12 +19,12 @@
 #ifndef ZX_EMULATOR_SCREEN_H
 #define ZX_EMULATOR_SCREEN_H
 
-
 #include <SDL_video.h>
 #include "signals/int/UsesINT.h"
 #include "Memory.h"
 #include "Frequency.h"
 #include "signals/int/INT.h"
+#include "ScreenMapElement.h"
 
 class Screen: public UsesINT {
 public:
@@ -68,6 +68,16 @@ private:
     byte border = 0;
 
     /**
+     * Цвет Border так, если бы это был аттрибут экрана
+     */
+    byte borderAttribute;
+
+    /**
+     * Цвет Border так, если бы это были данные экрана
+     */
+    byte borderData = 255;
+
+    /**
      * Поток, обновляющий экран
      */
     static int updateScreenThread(void *screen);
@@ -96,7 +106,12 @@ private:
      * Инициализирует палитру цветов ZX
      */
     void initPalette();
+
+    /**
+     * Карта окна для вывода изображения
+     */
+    ScreenMapElement screenMap[WINDOW_WIDTH*WINDOW_HEIGHT];
 };
 
-
 #endif //ZX_EMULATOR_SCREEN_H
+

@@ -18,6 +18,7 @@ Screen::Screen(Memory *memory) {
     this->initPalette();
     this->thread = SDL_CreateThread(Screen::updateScreenThread, NULL, this);
     INT::addObserver(this);
+    this->setBorder(1);
 
 //    Uint32 *ppp;
 //    ppp = (Uint32 *) this->surface->pixels + 50000;
@@ -35,11 +36,13 @@ int Screen::updateScreenThread(void *screen) {
         scr->resetINT();
         scr->flashHandler();
     }
+
     return 0;
 }
 
 void Screen::setBorder(byte border) {
-    this->border = border;
+    this->border = (byte) (border & 0b00000111);
+    this->borderAttribute = (byte) (this->border | this->border << 3);
 }
 
 void Screen::initPalette() {

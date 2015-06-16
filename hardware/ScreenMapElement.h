@@ -16,12 +16,12 @@ struct ScreenMapElement {
      * Указатель на точку, в которую отображается текущий символ
      * Равен NULL, если точку ставить не нужно
      */
-    void *pointerWin;
+    Uint32 *pointerWin;
 
     /**
      * Указывает на адрес памяти, откуда берутся данные
      */
-    void *pointerData;
+    byte *pointerData;
 
     /**
      * Маска, по которой определяется, включен ли бит в pointerData
@@ -31,7 +31,7 @@ struct ScreenMapElement {
     /**
      * Указывает на адрес памяти, откуда берется цвет цернил и бумаги
      */
-    void *pointerColor;
+    byte *pointerAttribute;
 
     /**
      * Количество тактов Z80, которое нужно подождать после вывода текущего пикселя
@@ -41,7 +41,12 @@ struct ScreenMapElement {
     /**
      * Использовать предыдущую точку
      */
-    bool usePrevious;
+    bool usePreviousPixel;
+
+    /**
+     * Использовать предыдущий аттрибут
+     */
+    bool usePreviousAttribute;
 };
 
 #endif //ZX_EMULATOR_SCREENMAPELEMENT_H

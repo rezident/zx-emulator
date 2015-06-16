@@ -8,6 +8,8 @@
 #define SCREEN_X_PIXELS         256
 #define SCREEN_Y_LINES          192
 
+#define WINDOW_WIDTH_SYMBOLS    (BORDER_LEFT_PIXELS / 8 + SCREEN_X_PIXELS / 8 + BORDER_RIGHT_PIXELS / 8)
+
 #define FLASH_FREQUENCY         1.565
 
 #define WINDOW_WIDTH (BORDER_LEFT_PIXELS+SCREEN_X_PIXELS+BORDER_RIGHT_PIXELS)*SCREEN_SCALE
@@ -35,6 +37,7 @@ public:
      */
     void setBorder(byte border);
 
+    void startThread(void *screen);
 private:
 
     /**
@@ -51,6 +54,11 @@ private:
      * Пиксельная карта экрана
      */
     SDL_Surface *surface;
+
+    /**
+     * Поток, обновляющий экран
+    */
+    static int updateScreenThread(void *screen);
 
     /**
      * Частотный генератор
@@ -75,12 +83,7 @@ private:
     /**
      * Цвет Border так, если бы это были данные экрана
      */
-    byte borderData = 255;
-
-    /**
-     * Поток, обновляющий экран
-     */
-    static int updateScreenThread(void *screen);
+    byte borderData;
 
     /**
      * Флаг, указывающий на то, нужно ли менять местами чернила и бумагу (мерцание)
@@ -112,8 +115,25 @@ private:
      */
     ScreenMapElement screenMap[WINDOW_WIDTH*WINDOW_HEIGHT+1];
 
+    /**
+     * Создает карту окна для вывода изображения
+     */
     void buildScreenMap();
+
+    /**
+     * Создает карту для рисования 8 пикселей из знакоместа
+     */
+    void buildScreenMapSymbol(ScreenMapElement *&map, Uint32 *&win, byte &data, byte &attribute);
+
+    /**
+     * Создает карту для рисования 1 пикселя
+     */
+    void buildScreenMapPixel(ScreenMapElement *&map, Uint32 *&win, byte &data, byte dataMask, byte &attribute);
+
+    /**
+     * Рисует изображение по карте
+     */
+    void paint();
 };
 
 #endif //ZX_EMULATOR_SCREEN_H
-

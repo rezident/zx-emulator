@@ -8,8 +8,6 @@
 #include "hardware/Screen.h"
 
 using namespace std;
-
-
 int main(int argc, char *argv[]) {
     if(!PRODUCTION) {
         chdir(dirname(strdup(__FILE__)));
@@ -22,7 +20,7 @@ int main(int argc, char *argv[]) {
 
     Memory *memory = new Memory();
     Screen *screen = new Screen(memory);
-    cout << WINDOW_WIDTH << "x" << WINDOW_HEIGHT << endl << FLASH_CHANGE_EVERY_INT;
+    screen->startThread(screen);
     getchar();
     return 0;
 }

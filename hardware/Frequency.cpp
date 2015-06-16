@@ -9,11 +9,12 @@ SDL_Thread *Frequency::thread = SDL_CreateThread(Frequency::updateRatioThread, N
 
 Frequency::Frequency() {
     this->lastTact = _rdtsc();
+
 }
 
 void Frequency::wait(int z80Tacts) {
     uint64_t waitTact = this->lastTact + z80Tacts * this->ratio;
-    while(_rdtsc() < waitTact);
+    while(_rdtsc() < waitTact) { }
     this->lastTact = _rdtsc();
 }
 

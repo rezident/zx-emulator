@@ -20,7 +20,10 @@ int main(int argc, char *argv[]) {
 
     Memory *memory = new Memory();
     Screen *screen = new Screen(memory);
-    screen->startThread(screen);
+    for(int i = 0; i<8;i++){
+        screen->setBorder(i);
+        SDL_Delay(200);
+    }
     getchar();
     return 0;
 }

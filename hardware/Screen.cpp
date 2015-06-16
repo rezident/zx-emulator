@@ -20,6 +20,7 @@ Screen::Screen(Memory *memory) {
     INT::addObserver(this);
     this->setBorder(1);
     this->buildScreenMap();
+    this->thread = SDL_CreateThread(Screen::updateScreenThread, NULL, this);
 
 //    Uint32 *ppp;
 //    ppp = (Uint32 *) this->surface->pixels + 50000;
@@ -138,16 +139,14 @@ void Screen::buildScreenMapPixel(ScreenMapElement *&map, Uint32 *&win, byte &dat
 void Screen::paint() {
     ScreenMapElement element;
     Uint32 *win;
-    Uint32 paper;
-    Uint32 ink;
-    Uint32 pixel;
+    Uint32 paper = this->palette[0];
+    Uint32 ink = this->palette[0];
+    Uint32 pixel = this->palette[0];
     int bright;
     bool flash;
-//exit(4);
+
     for(int i = 0; i < WINDOW_WIDTH*WINDOW_HEIGHT+1; i++) {
-        if( i > 2) {
-            break;
-        }
+        if(i > 1000000) break;
         element = screenMap[i];
         if(element.pointerWin != NULL) {
             if(!element.usePreviousAttribute) {
@@ -169,7 +168,6 @@ void Screen::paint() {
 
             win = element.pointerWin;
             *win = pixel;
-            std::cout << win << "=" << pixel << std::endl;
 //            exit(5);
         }
 
@@ -182,6 +180,3 @@ void Screen::paint() {
 
 }
 
-void Screen::startThread(void *screen) {
-    this->thread = SDL_CreateThread((SDL_ThreadFunction) Screen::updateScreenThread, NULL, screen);
-}

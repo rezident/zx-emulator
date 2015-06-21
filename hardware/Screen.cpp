@@ -84,8 +84,8 @@ void Screen::buildScreenMap() {
     int x, y;
     ScreenMapElement *map = (ScreenMapElement *) this->screenMap;
 
-    void *screenData = this->memory->getPointer(16384);
-    void *screenAttributes = this->memory->getPointer(16384 + 6144);
+    byte *screenData = (byte *) this->memory->getPointer(16384);
+    byte *screenAttributes = (byte *) this->memory->getPointer(16384 + 6144);
     Uint32 *win;
     win = (Uint32 *) this->surface->pixels;
 
@@ -101,6 +101,57 @@ void Screen::buildScreenMap() {
                     map, win, this->borderData, this->borderAttribute
             );
         }
+
+        win = win + WINDOW_WIDTH * (SCREEN_SCALE - 1);
+        (map-1)->tactsWait += SYNCHRO_LEFT_TICKS;
+    }
+
+    for(int third = 0; third < 3; third++) {
+        for(int symbolY = 0; symbolY < 8; symbolY++) {
+            for(y = 0; y < 8; y++) {
+                for(x = 0; x < BORDER_LEFT_PIXELS / 8; x++) {
+                    this->buildScreenMapSymbol(
+                            map, win, this->borderData, this->borderAttribute
+                    );
+                }
+                for(x = 0; x < SCREEN_X_SYMBOLS; x++) {
+                    this->buildScreenMapSymbol(
+                            map, win, *screenData, *screenAttributes
+                    );
+                    screenData++;
+                    screenAttributes++;
+                }
+
+                screenData -= SCREEN_X_SYMBOLS;
+                screenData += 8 * SCREEN_X_SYMBOLS;
+                screenAttributes -= SCREEN_X_SYMBOLS;
+
+                for(x = 0; x < BORDER_RIGHT_PIXELS / 8; x++) {
+                    this->buildScreenMapSymbol(
+                            map, win, this->borderData, this->borderAttribute
+                    );
+                }
+
+                win = win + WINDOW_WIDTH * (SCREEN_SCALE - 1);
+                (map-1)->tactsWait += SYNCHRO_LEFT_TICKS;
+            }
+
+            screenAttributes += SCREEN_X_SYMBOLS;
+            screenData = screenData - 8 * 8 * SCREEN_X_SYMBOLS + SCREEN_X_SYMBOLS;
+        }
+
+        screenData = screenData + 7 * 8 * SCREEN_X_SYMBOLS;
+    }
+
+    for(y = 0; y < BORDER_BOTTOM_LINES; y++) {
+        for(x = 0; x < WINDOW_WIDTH_SYMBOLS; x++) {
+            this->buildScreenMapSymbol(
+                    map, win, this->borderData, this->borderAttribute
+            );
+        }
+
+        win = win + WINDOW_WIDTH * (SCREEN_SCALE - 1);
+        (map-1)->tactsWait += SYNCHRO_LEFT_TICKS;
     }
 
 }
@@ -146,7 +197,6 @@ void Screen::paint() {
     bool flash;
 
     for(int i = 0; i < WINDOW_WIDTH*WINDOW_HEIGHT+1; i++) {
-        if(i > 1000000) break;
         element = screenMap[i];
         if(element.pointerWin != NULL) {
             if(!element.usePreviousAttribute) {

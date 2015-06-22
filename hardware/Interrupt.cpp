@@ -3,6 +3,7 @@
 //
 
 #include "Interrupt.h"
+#include "signals/int/INT.h"
 
 void Interrupt::setMode0() {
     this->mode = 0;
@@ -23,4 +24,9 @@ void Interrupt::setEnable() {
 
 void Interrupt::setDisable() {
     this->disable = true;
+}
+
+Interrupt::Interrupt() {
+    INT::addObserver(this);
+
 }

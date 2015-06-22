@@ -11,6 +11,9 @@
 class Interrupt: public UsesINT {
 
 public:
+
+    Interrupt();
+
     /**
      * Устанавливает 0 режим прерываний
      */

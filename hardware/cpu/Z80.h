@@ -11,20 +11,38 @@
 #include "../Frequency.h"
 
 
+/**
+ * Класс процессора
+ */
 class Z80 {
 typedef int (Z80::*Z80Command)();
 public:
     Z80(Memory *memory);
 
-    Z80Command mainCommands[256];
+    /**
+     * Обработчик машинных кодов
+     */
+    void process();
 
 private:
-    int opt0xF3();      // DI
+
+    /**
+     * Набор главных комманд процессора
+     */
+    Z80Command mainCommands[256];
+
+    /**
+     * Инициализация таблиц машинных кодов
+     */
     void init() {
+        for(int i = 0; i < 256; i++) {
+            this->mainCommands[i] = NULL;
+        }
+
         this->mainCommands[0xF3] = &Z80::opt0xF3;
     }
 
-
+    int opt0xF3();      // DI
 
     Register *AF;
     Register *BC;
@@ -41,7 +59,10 @@ private:
     Memory *memory;
     SDL_Thread *thread;
 
-    int cpuThread(void *);
+    /**
+     * Поток процессора
+     */
+    static int cpuThread(void *);
 
 };
 

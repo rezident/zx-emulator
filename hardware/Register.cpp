@@ -39,3 +39,31 @@ void Register::setLow(byte Low) {
 void Register::highLowToValue() {
     this->value = (doubleByte) (this->high * 256 + this->low);
 }
+
+void Register::inc() {
+    this->setValue((doubleByte) (this->value + 1));
+}
+
+void Register::dec() {
+    this->setValue((doubleByte) (this->value - 1));
+}
+
+void Register::incHigh() {
+    this->high++;
+    this->highLowToValue();
+}
+
+void Register::decHigh() {
+    this->high--;
+    this->highLowToValue();
+}
+
+void Register::incLow() {
+    this->low++;
+    this->highLowToValue();
+}
+
+void Register::decLow() {
+    this->low--;
+    this->highLowToValue();
+}

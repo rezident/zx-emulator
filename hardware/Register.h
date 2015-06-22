@@ -11,7 +11,7 @@
 class Register {
 
 public:
-    void Register(doubleByte value);
+    Register(doubleByte value);
 
     /**
      * Устаналивает значение регистра

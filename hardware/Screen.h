@@ -38,13 +38,7 @@ public:
      */
     void setBorder(byte border);
 
-    void startThread(void *screen);
 private:
-
-    /**
-     * Память компьютера ZX
-     */
-    Memory *memory;
 
     /**
      * Окно, в котором размещается экран
@@ -58,18 +52,24 @@ private:
 
     /**
      * Поток, обновляющий экран
-    */
+     */
     static int updateScreenThread(void *screen);
+
+    /**
+     * Поток, в котором идет обновление экрана
+     */
+    SDL_Thread *thread;
+
+    /**
+     * Память компьютера ZX
+     */
+    Memory *memory;
 
     /**
      * Частотный генератор
      */
     Frequency *frequency = new Frequency;
 
-    /**
-     * Поток, в котором идет обновление экрана
-     */
-    SDL_Thread *thread;
 
     /**
      * Цвет Border

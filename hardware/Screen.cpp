@@ -15,27 +15,17 @@ Screen::Screen(Memory *memory) {
             WINDOW_WIDTH, WINDOW_HEIGHT, 0
     );
 
-    this->surface = SDL_GetWindowSurface(this->window);
-    this->initPalette();
-    INT::addObserver(this);
-    this->setBorder(1);
-    this->buildScreenMap();
     this->thread = SDL_CreateThread(Screen::updateScreenThread, NULL, this);
 
-//    Uint32 *ppp;
-//    ppp = (Uint32 *) this->surface->pixels + 50000;
-//    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 0, 0); ppp++;
-//    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 0, 0); ppp++;
-//    *ppp = (Uint32) SDL_MapRGB(surface->format, 0, 255, 0); ppp++;
-//    *ppp = (Uint32) SDL_MapRGB(surface->format, 255, 255, 0); ppp++;
-//    SDL_UpdateWindowSurface(this->window);
 }
 
 int Screen::updateScreenThread(void *screen) {
-//    exit(54);
     Screen *scr = (Screen *) screen;
-    SDL_UpdateWindowSurface(scr->window);
-    std::cout << scr << "asd";
+    scr->surface = SDL_GetWindowSurface(scr->window);
+    scr->initPalette();
+    scr->buildScreenMap();
+    INT::addObserver(scr);
+
     while(true) {
         while(!scr->isComeINT()) {}
         scr->resetINT();
@@ -218,7 +208,6 @@ void Screen::paint() {
 
             win = element.pointerWin;
             *win = pixel;
-//            exit(5);
         }
 
         if(element.tactsWait > 0) {

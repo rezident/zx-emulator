@@ -9,6 +9,7 @@
 #include "../Register.h"
 #include "../Interrupt.h"
 #include "../Frequency.h"
+#include "../Flag.h"
 
 
 /**
@@ -59,6 +60,7 @@ private:
     Interrupt *interrupt;
     Frequency *frequency;
     Memory *memory;
+    Flag *flag;
     SDL_Thread *thread;
 
     /**

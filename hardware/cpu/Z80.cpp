@@ -19,6 +19,7 @@ Z80::Z80(Memory *memory) {
     this->interrupt = new Interrupt();
     this->frequency = new Frequency();
     this->memory = memory;
+    this->flag = new Flag(this->AF);
 
     this->init();
 

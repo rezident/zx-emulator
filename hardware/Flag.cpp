@@ -44,15 +44,57 @@ bool Flag::isS() {
     return (this->af->getLow() & 0b10000000) != 0;
 }
 
-void Flag::setPO() {
+void Flag::setPV() {
     this->af->setLow((byte) (this->af->getLow() | 0b00000100));
 }
 
-void Flag::resetPO() {
+void Flag::resetPV() {
     this->af->setLow((byte) (this->af->getLow() & 0b11111011));
 }
 
-bool Flag::isPO() {
+bool Flag::isPV() {
     return (this->af->getLow() & 0b00000100) != 0;
 }
 
+void Flag::setN() {
+    this->af->setLow((byte) (this->af->getLow() | 0b00000010));
+}
+
+void Flag::resetN() {
+    this->af->setLow((byte) (this->af->getLow() & 0b11111101));
+}
+
+bool Flag::isN() {
+    return (this->af->getLow() & 0b00000010) != 0;
+}
+
+void Flag::setH() {
+    this->af->setLow((byte) (this->af->getLow() | 0b00010000));
+}
+
+void Flag::resetH() {
+    this->af->setLow((byte) (this->af->getLow() & 0b11101111));
+}
+
+bool Flag::isH() {
+    return (this->af->getLow() & 0b00010000) != 0;
+}
+
+void Flag::parityCalc() {
+    int units = 0;
+    byte a = this->af->getHigh();
+    units += (bool) (a & 0b10000000);
+    units += (bool) (a & 0b01000000);
+    units += (bool) (a & 0b00100000);
+    units += (bool) (a & 0b00010000);
+    units += (bool) (a & 0b00001000);
+    units += (bool) (a & 0b00000100);
+    units += (bool) (a & 0b00000010);
+    units += (bool) (a & 0b00000001);
+
+    if(units % 2) {
+        this->resetPV();
+    } else {
+        this->setPV();
+    }
+}

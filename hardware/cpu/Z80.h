@@ -39,9 +39,11 @@ private:
             this->mainCommands[i] = NULL;
         }
 
+        this->mainCommands[0xAF] = &Z80::opt0xAF;
         this->mainCommands[0xF3] = &Z80::opt0xF3;
     }
 
+    int opt0xAF();      // XOR A
     int opt0xF3();      // DI
 
     Register *AF;

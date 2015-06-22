@@ -27,14 +27,6 @@ Z80::Z80(Memory *memory) {
 }
 
 
-
-int Z80::opt0xF3() {    // DI
-    this->interrupt->setDisable();
-    std::cout << "DI!!!";
-    return 4;
-}
-
-
 int Z80::cpuThread(void *z80) {
     Z80 *cpu = (Z80 *) z80;
     cpu->process();
@@ -57,4 +49,15 @@ void Z80::process() {
         this->frequency->wait(tacts);
 
     }
+}
+
+
+int Z80::opt0xF3() {    // DI
+    this->interrupt->setDisable();
+    return 4;
+}
+
+int Z80::opt0xAF() {    // XOR A
+
+    return 4;
 }

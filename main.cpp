@@ -22,10 +22,7 @@ int main(int argc, char *argv[]) {
     Memory *memory = new Memory();
     Screen *screen = new Screen(memory);
     Z80 *cpu = new Z80(memory);
-    for(int i = 0; i<8;i++){
-        screen->setBorder(i);
-        SDL_Delay(200);
-    }
+
     getchar();
     return 0;
 }

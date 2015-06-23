@@ -59,6 +59,12 @@ int Z80::opt0xF3() {    // DI
 }
 
 int Z80::opt0xAF() {    // XOR A
-
+    this->AF->setHigh(0);
+    this->flag->resetC();
+    this->flag->resetN();
+    this->flag->parityCalc();
+    this->flag->resetH();
+    this->flag->ZCalc(0);
+    this->flag->SCalc(0);
     return 4;
 }

@@ -31,7 +31,7 @@ void Register::setHigh(byte high) {
     this->highLowToValue();
 }
 
-void Register::setLow(byte Low) {
+void Register::setLow(byte low) {
     this->low = low;
     this->highLowToValue();
 }

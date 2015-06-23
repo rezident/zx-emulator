@@ -2,6 +2,7 @@
 // Created by yuri on 22.06.15.
 //
 
+#include <iostream>
 #include "Flag.h"
 
 Flag::Flag(Register *af) {
@@ -91,10 +92,33 @@ void Flag::parityCalc() {
     units += (bool) (a & 0b00000100);
     units += (bool) (a & 0b00000010);
     units += (bool) (a & 0b00000001);
-
-    if(units % 2) {
-        this->resetPV();
-    } else {
+    if(units % 2 == 0) {
         this->setPV();
+    } else {
+        this->resetPV();
     }
+}
+
+void Flag::ZCalc(byte result) {
+    this->ZCalc((doubleByte) result);
+}
+
+void Flag::ZCalc(doubleByte result) {
+    if(result == 0) {
+        this->setZ();
+    } else {
+        this->resetZ();
+    }
+}
+
+void Flag::SCalc(doubleByte result) {
+    if((result & 0b1000000000000000) == 0) {
+        this->resetS();
+    }  else {
+        this->setS();
+    }
+}
+
+void Flag::SCalc(byte result) {
+    this->SCalc((doubleByte) (result * 256));
 }

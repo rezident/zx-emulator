@@ -107,6 +107,26 @@ public:
      */
     void parityCalc();
 
+    /**
+     * Вычисляет флаг нуля
+     */
+    void ZCalc(byte result);
+
+    /**
+     * Вычисляет флаг нуля
+     */
+    void ZCalc(doubleByte result);
+
+    /**
+     * Вычисляет флаг знака
+     */
+    void SCalc(byte result);
+
+    /**
+     * Вычисляет флаг знака
+     */
+    void SCalc(doubleByte result);
+
 
 private:
     Register *af;

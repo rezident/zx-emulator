@@ -26,7 +26,7 @@ public:
     /**
      * Устанавливает младший байт регистра
      */
-    void setLow(byte Low);
+    void setLow(byte low);
 
     /**
      * Возвращает значение регистра

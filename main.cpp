@@ -7,6 +7,7 @@
 #include "hardware/Memory.h"
 #include "hardware/Screen.h"
 #include "hardware/cpu/Z80.h"
+#include "hardware/ports/PortsPool.h"
 
 using namespace std;
 int main(int argc, char *argv[]) {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    PortsPool::init();
     Memory *memory = new Memory();
     Screen *screen = new Screen(memory);
     Z80 *cpu = new Z80(memory);

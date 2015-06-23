@@ -142,16 +142,19 @@ int Z80::opt0x2B() {
 }
 
 int Z80::opt0xBC() {
-    byte h = this->HL->getHigh();
-    byte a = this->AF->getHigh();
-    byte result = a - h;
+    this->cpN(this->HL->getHigh());
+    return 4;
+}
 
-    this->flag->CCalc(false, a, h);
-    this->flag->setN();
-    this->flag->VCalc(false, h, result);
-    this->flag->HCalc(false, a, h);
+void Z80::cpN(byte operand) {
+    byte a = this->AF->getHigh();
+    byte result = a - operand;
+
+    this->flag->CCalc(false, a, operand);
+    this->flag->NCalc(false);
+    this->flag->VCalc(false, a, operand);
+    this->flag->HCalc(false, a, operand);
     this->flag->SCalc(result);
     this->flag->ZCalc(result);
 
-    return 4;
 }

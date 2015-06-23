@@ -109,6 +109,11 @@ private:
     static int cpuThread(void *);
 
     Z80Command getCommandMethod(Z80Command *commandsSet, const char *prefix);
+
+    /**
+     * Выполняет комманду CP над операндом
+     */
+    void cpN(byte operand);
 };
 
 

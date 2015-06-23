@@ -130,7 +130,7 @@ public:
     /**
      * Вычисляет флаг переполнения "V"
      */
-    void VCalc(bool isAdd, byte oldValue, byte newValue);
+    void VCalc(bool isAdd, byte operand1, byte operand2);
 
     /**
      * Вычисляет флаг переноса C
@@ -151,6 +151,11 @@ public:
      * Вычисляет флаг полупереноса H
      */
     void HCalc(bool isAdd, byte operand1, byte operand2);
+
+    /**
+     * Вычисляет флаг сложения/вычитания
+     */
+    void NCalc(bool isAdd);
 
 private:
     Register *af;

@@ -123,14 +123,18 @@ void Flag::SCalc(byte result) {
     this->SCalc((doubleByte) (result * 256));
 }
 
-void Flag::VCalc(bool isAdd, byte oldValue, byte newValue) {
+void Flag::VCalc(bool isAdd, byte operand1, byte operand2) {
+    byte oldValue = operand1;
+    byte newValue;
     if(isAdd) {
+        newValue = oldValue + operand2;
         if(oldValue >= 0x00 && oldValue <= 0x7F && newValue >= 0x80 && newValue <= 0xFF) {
             this->setPV();
         } else {
             this->resetPV();
         }
     } else {
+        newValue = oldValue - operand2;
         if(newValue >= 0x00 && newValue <= 0x7F && oldValue >= 0x80 && oldValue <= 0xFF) {
             this->setPV();
         } else {
@@ -191,4 +195,13 @@ void Flag::HCalc(bool isAdd, byte operand1, byte operand2) {
             this->resetH();
         }
     }
+}
+
+void Flag::NCalc(bool isAdd) {
+    if(isAdd) {
+        this->resetN();
+    } else {
+        this->setN();
+    }
+
 }

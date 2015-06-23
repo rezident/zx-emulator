@@ -39,19 +39,26 @@ void Z80::process() {
     Z80Command commandMethod;
     int tacts;
     while(true) {
-        byte code = this->memory->readN(this->PC->getValue());
-        commandMethod = this->mainCommands[code];
-        this->PC->inc();
-        if(commandMethod == NULL) {
-            std::cout << "Unknown code: " << "#" << std::uppercase << std::hex << (int) code << std::endl;
-            throw;
-        }
-
-        tacts = (this->*Z80::mainCommands[code])();
+        commandMethod = this->getCommandMethod(this->mainCommands, "");
+        tacts = (this->*commandMethod)();
         this->frequency->wait(tacts);
-
     }
 }
+
+Z80::Z80Command Z80::getCommandMethod(Z80::Z80Command *commandsSet, const char *prefix) {
+    Z80Command commandMethod;
+    byte code = this->memory->readN(this->PC->getValue());
+    this->PC->inc();
+    commandMethod = commandsSet[code];
+    if(commandMethod == NULL) {
+        std::cout << "Unknown code: " << "#" << prefix << std::uppercase << std::hex << (int) code << std::endl;
+        throw;
+    }
+
+    return commandMethod;
+}
+
+
 
 int Z80::opt0xAF() {    // XOR A
     this->AF->setHigh(0);
@@ -97,4 +104,13 @@ int Z80::opt0xD3() {
     this->PC->inc();
     PortsPool::write(this->AF->getHigh(), port, this->AF->getHigh());
     return 11;
+}
+
+int Z80::opt0xED() {
+    return (this->*this->getCommandMethod(this->extendedCommands, "ED"))();
+}
+
+int Z80::opt0xED47() {
+    this->IR->setHigh(this->AF->getHigh());
+    return 9;
 }

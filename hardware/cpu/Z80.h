@@ -33,11 +33,20 @@ private:
     Z80Command mainCommands[256];
 
     /**
+     * Набор расширенных комманд процессора (ED)
+     */
+    Z80Command extendedCommands[256];
+
+    /**
      * Инициализация таблиц машинных кодов
      */
     void init() {
         for(int i = 0; i < 256; i++) {
             this->mainCommands[i] = NULL;
+        }
+
+        for(int i = 0; i < 256; i++) {
+            this->extendedCommands[i] = NULL;
         }
 
         this->mainCommands[0x11] = &Z80::opt0x11;
@@ -46,7 +55,10 @@ private:
         this->mainCommands[0xAF] = &Z80::opt0xAF;
         this->mainCommands[0xC3] = &Z80::opt0xC3;
         this->mainCommands[0xD3] = &Z80::opt0xD3;
+        this->mainCommands[0xED] = &Z80::opt0xED;
         this->mainCommands[0xF3] = &Z80::opt0xF3;
+
+        this->extendedCommands[0x47] = &Z80::opt0xED47;
     }
 
     int opt0x11();      // LD DE,NN
@@ -55,7 +67,13 @@ private:
     int opt0xAF();      // XOR A
     int opt0xC3();      // JP NN
     int opt0xD3();      // OUT (N),A
+    int opt0xED();      // Extended instructions
     int opt0xF3();      // DI
+
+
+    int opt0xED47();    // LD I,A
+
+
 
     Register *AF;
     Register *BC;
@@ -78,6 +96,7 @@ private:
      */
     static int cpuThread(void *);
 
+    Z80Command getCommandMethod(Z80Command *commandsSet, const char *prefix);
 };
 
 

@@ -52,19 +52,45 @@ void Z80::process() {
     }
 }
 
-
-int Z80::opt0xF3() {    // DI
-    this->interrupt->setDisable();
-    return 4;
-}
-
 int Z80::opt0xAF() {    // XOR A
     this->AF->setHigh(0);
     this->flag->resetC();
     this->flag->resetN();
     this->flag->parityCalc();
     this->flag->resetH();
-    this->flag->ZCalc(0);
-    this->flag->SCalc(0);
+    this->flag->ZCalc((byte) 0);
+    this->flag->SCalc((byte) 0);
     return 4;
+}
+
+int Z80::opt0xF3() {    // DI
+    this->interrupt->setDisable();
+    return 4;
+}
+
+int Z80::opt0x11() {    // LD DE,NN
+    this->DE->setValue(this->memory->readNN(this->PC->getValue()));
+    this->PC->inc();
+    this->PC->inc();
+    return 10;
+}
+
+int Z80::opt0xC3() {    // JP NN
+    this->PC->setValue(this->memory->readNN(this->PC->getValue()));
+    return 10;
+}
+
+int Z80::opt0x47() {    // LD B,A
+    this->BC->setHigh(this->AF->getHigh());
+    return 4;
+}
+
+int Z80::opt0x3E() {
+    this->AF->setHigh(this->memory->readN(this->PC->getValue()));
+    this->PC->inc();
+    return 7;
+}
+
+int Z80::opt0xD3() {
+    return 11;
 }

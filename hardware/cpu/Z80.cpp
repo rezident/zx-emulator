@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "Z80.h"
+#include "../ports/PortsPool.h"
 
 Z80::Z80(Memory *memory) {
     this->AF = new Register(0);
@@ -92,5 +93,8 @@ int Z80::opt0x3E() {
 }
 
 int Z80::opt0xD3() {
+    byte port = this->memory->readN(this->PC->getValue());
+    this->PC->inc();
+    PortsPool::write(this->AF->getHigh(), port, this->AF->getHigh());
     return 11;
 }

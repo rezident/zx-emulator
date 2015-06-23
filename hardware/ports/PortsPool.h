@@ -15,6 +15,16 @@ public:
      * Инициализирует списки обработчиков пустыми значениями
      */
     static void init();
+
+    /**
+     * Добавляет в пул писальщика в порт
+     */
+    static void addWriter(doubleByte address, PortWriter *writer);
+
+    /**
+     * Записывает в порт данные
+     */
+    static void write(byte highByte, byte lowByte, byte value);
 private:
     /**
      * Обработчики записи в порт

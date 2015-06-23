@@ -5,9 +5,11 @@
 #ifndef ZX_EMULATOR_PORTWRITER_H
 #define ZX_EMULATOR_PORTWRITER_H
 
+#include "../Memory.h"
 
 class PortWriter {
-
+public:
+    virtual void write(byte value) = 0;
 };
 
 

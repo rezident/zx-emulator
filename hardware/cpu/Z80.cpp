@@ -114,3 +114,44 @@ int Z80::opt0xED47() {
     this->IR->setHigh(this->AF->getHigh());
     return 9;
 }
+
+int Z80::opt0x00() {
+    return 4;
+}
+
+int Z80::opt0x62() {
+    this->HL->setHigh(this->DE->getHigh());
+    return 4;
+}
+
+int Z80::opt0x6B() {
+    this->HL->setLow(this->DE->getLow());
+    return 4;
+}
+
+int Z80::opt0x36() {
+    byte value = this->memory->readN(this->PC->getValue());
+    this->PC->inc();
+    this->memory->writeN(this->HL->getValue(), value);
+    return 10;
+}
+
+int Z80::opt0x2B() {
+    this->HL->dec();
+    return 6;
+}
+
+int Z80::opt0xBC() {
+    byte h = this->HL->getHigh();
+    byte a = this->AF->getHigh();
+    byte result = a - h;
+
+    this->flag->CCalc(false, a, h);
+    this->flag->setN();
+    this->flag->VCalc(false, h, result);
+    this->flag->HCalc(false, a, h);
+    this->flag->SCalc(result);
+    this->flag->ZCalc(result);
+
+    return 4;
+}

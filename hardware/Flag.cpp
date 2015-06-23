@@ -122,3 +122,73 @@ void Flag::SCalc(doubleByte result) {
 void Flag::SCalc(byte result) {
     this->SCalc((doubleByte) (result * 256));
 }
+
+void Flag::VCalc(bool isAdd, byte oldValue, byte newValue) {
+    if(isAdd) {
+        if(oldValue >= 0x00 && oldValue <= 0x7F && newValue >= 0x80 && newValue <= 0xFF) {
+            this->setPV();
+        } else {
+            this->resetPV();
+        }
+    } else {
+        if(newValue >= 0x00 && newValue <= 0x7F && oldValue >= 0x80 && oldValue <= 0xFF) {
+            this->setPV();
+        } else {
+            this->resetPV();
+        }
+    }
+}
+
+void Flag::CCalc(bool isAdd, doubleByte operand1, doubleByte operand2) {
+    if(isAdd) {
+        if((operand1 + operand2) > 65535) {
+            this->setC();
+        } else {
+            this->resetC();
+        }
+    } else {
+        if((operand1 - operand2) < 0) {
+            this->setC();
+        } else {
+            this->resetC();
+        }
+    }
+}
+
+void Flag::CCalc(bool isAdd, byte operand1, byte operand2) {
+    this->CCalc(isAdd, (doubleByte) (operand1 * 256), (doubleByte) (operand2 * 256));
+}
+
+void Flag::HCalc(bool isAdd, doubleByte operand1, doubleByte operand2) {
+    operand1 = (doubleByte) (operand1 & 0b0000000011111111);
+    if(isAdd) {
+        if((operand1 + operand2) > 255) {
+            this->setH();
+        }  else {
+            this->resetH();
+        }
+    } else {
+        if((operand1 - operand2) < 0) {
+            this->setH();
+        } else {
+            this->resetH();
+        }
+    }
+}
+
+void Flag::HCalc(bool isAdd, byte operand1, byte operand2) {
+    operand1 = (byte) (operand1 & 0b00001111);
+    if(isAdd) {
+        if((operand1 + operand2) > 0b00001111) {
+            this->setH();
+        }  else {
+            this->resetH();
+        }
+    } else {
+        if((operand1 - operand2) < 0) {
+            this->setH();
+        } else {
+            this->resetH();
+        }
+    }
+}

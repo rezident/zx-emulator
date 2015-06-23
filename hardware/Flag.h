@@ -127,6 +127,30 @@ public:
      */
     void SCalc(doubleByte result);
 
+    /**
+     * Вычисляет флаг переполнения "V"
+     */
+    void VCalc(bool isAdd, byte oldValue, byte newValue);
+
+    /**
+     * Вычисляет флаг переноса C
+     */
+    void CCalc(bool isAdd, doubleByte operand1, doubleByte operand2);
+
+    /**
+     * Вычисляет флаг переноса C
+     */
+    void CCalc(bool isAdd, byte operand1, byte operand2);
+
+    /**
+     * Вычисляет флаг полупереноса H
+     */
+    void HCalc(bool isAdd, doubleByte operand1, doubleByte operand2);
+
+    /**
+     * Вычисляет флаг полупереноса H
+     */
+    void HCalc(bool isAdd, byte operand1, byte operand2);
 
 private:
     Register *af;

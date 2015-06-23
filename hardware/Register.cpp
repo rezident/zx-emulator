@@ -22,7 +22,7 @@ doubleByte Register::getValue() {
 
 void Register::setValue(doubleByte value) {
     this->value = value;
-    this->high = (byte) (value & 0b1111111100000000) >> 8;
+    this->high = (byte) ((value & 0b1111111100000000) >> 8);
     this->low = (byte) (value & 0b000000011111111);
 }
 
